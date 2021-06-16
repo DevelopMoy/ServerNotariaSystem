@@ -20,6 +20,21 @@ const addUser = async (req,res)=> {
     })
 }
 
+const deleteUser = async (req,res)=>{
+    const {UID} = req.body;
+    try{
+        await Usuario.disableUser(UID);
+        return res.status(202).json({
+            ok: true,
+            UID
+        });
+    }catch (error){
+        return res.status(400).json({
+            msg: 'Error al eliminar usuario'
+        })
+    }
+}
+
 const createClient = async (req,res)=>{
     res.status(200).json({
         msg: "perpeprep"
@@ -29,5 +44,6 @@ const createClient = async (req,res)=>{
 module.exports = {
     getUsers,
     addUser,
-    createClient
+    createClient,
+    deleteUser
 }

@@ -12,12 +12,34 @@ class Usuario {
     static async getAllUsers (){
         const connection = new Connection();
         const array = [];
-        const collection = connection.db.collection('users').get();
-        (await collection).forEach((doc)=>{
+        const collectionUsers = connection.db.collection('users').get();
+        (await collectionUsers).forEach((doc)=>{
             const user =doc.data();
             array.push(user);
         })
         return array;
+    }
+
+    static async getRole (UID){
+        const connection = new Connection();
+        const userCollection = connection.db.collection('users');
+        const snapshot = await userCollection.where('UID','==',UID).get();
+        if (snapshot.empty){
+            throw new Error('EL usuario no existe');
+        }else{
+            return snapshot.docs[0].data().role;
+        }
+    }
+
+    static async disableUser (UID){
+        const connection = new Connection();
+        const snapshot = await connection.db.collection('users').where('UID','==',UID).get();
+        if (snapshot.empty){
+            throw new Error('EL usuario no existe');
+        }else{
+            const docId=snapshot.docs[0].id;
+            return connection.db.collection('users').doc(docId).update({enabled:false});
+        }
     }
 
     async saveAsNewUser (){

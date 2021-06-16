@@ -2,12 +2,15 @@ const express = require('express');
 const router = express.Router();
 const {check} = require('express-validator');
 const {validateErrors, checkRole, checkEmailRepetido, checkUIDRepetido} = require('../middlewares/expressValidator');
-
+const {validateRole} = require('../middlewares/authMiddlewares');
 const userController = require('../controllers/user.controller');
 
 // TO DO: VALIDATE JWT, AUTH METHODS
 
-router.get('',userController.getUsers); // Protected, just for admin
+router.get('',[
+    validateRole('ADMIN')
+],userController.getUsers); // Protected, just for admin
+
 router.post('',[
     check('name','Must contain name value').not().isEmpty(),
     check('email','Must contain email value').not().isEmpty(),
@@ -19,6 +22,12 @@ router.post('',[
     checkUIDRepetido,
     validateErrors
 ],userController.addUser);
+
+router.delete('',[
+    check('UID','UID Param required').not().isEmpty(),
+    validateRole("ADMIN")
+],userController.deleteUser);
+
 router.post('/cliente',userController.createClient);
 
 module.exports = router;
