@@ -10,11 +10,10 @@ const getUsers = async (req,res)=>{
 }
 
 const addUser = async (req,res)=> {
-    console.log("AGREGANDO USUARIOO");
-    const {name, email, role, phone} = req.body;
-    const isFirebaseAuth = false; // TO DO
-    const newUser = new Usuario(email,name,role,phone,isFirebaseAuth);
-    const UID = await newUser.saveAsNewUser();
+    console.log("AGREGANDO USUARIO");
+    const {name, email, role, phone, UID} = req.body;
+    const newUser = new Usuario(email,name,role,phone,UID);
+    await newUser.saveAsNewUser();
     return res.status(200).json({
         ok: true,
         user: UID

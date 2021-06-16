@@ -33,8 +33,20 @@ const checkEmailRepetido = async  (req,res,next)=>{
     next();
 }
 
+const checkUIDRepetido = async  (req,res,next)=>{
+    const usuarios = await Usuario.getAllUsers();
+    if ((usuarios.filter(user=>user.UID===req.body.UID)).length!==0){
+        return res.status(400).json({
+            msg: 'El usuario ya se encuentra registrado en el sistema'
+        })
+    }
+    next();
+}
+
+
 module.exports = {
     validateErrors,
     checkRole,
-    checkEmailRepetido
+    checkEmailRepetido,
+    checkUIDRepetido
 }

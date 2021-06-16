@@ -1,12 +1,12 @@
 const Connection = require('../models/Connection');
 
 class Usuario {
-    constructor(email, nombre, rol, celular="",firebaseAuth=false, UID = "") {
+    constructor(email, nombre, rol, celular="", UID) {
         this.email = email;
         this.nombre = nombre;
         this.rol = rol;
         this.celular = celular;
-        this.firebaseAuth = firebaseAuth;
+        this.UID = UID;
     }
 
     static async getAllUsers (){
@@ -22,9 +22,9 @@ class Usuario {
 
     async saveAsNewUser (){
         const connection = new Connection();
-        const {nombre:name, email, rol: role, celular:phone, firebaseAuth} = this;
+        const {nombre:name, email, rol: role, celular:phone, UID} = this;
         return connection.db.collection('users').doc().set({
-            name,email,role,phone,firebaseAuth, enabled: true
+            name,email,role,phone,UID, enabled: true
         });
     }
 }

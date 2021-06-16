@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {check} = require('express-validator');
-const {validateErrors, checkRole, checkEmailRepetido} = require('../middlewares/expressValidator');
+const {validateErrors, checkRole, checkEmailRepetido, checkUIDRepetido} = require('../middlewares/expressValidator');
 
 const userController = require('../controllers/user.controller');
 
@@ -12,9 +12,11 @@ router.post('',[
     check('name','Must contain name value').not().isEmpty(),
     check('email','Must contain email value').not().isEmpty(),
     check('email','Email field must be an email').isEmail(),
+    check('UID','UID Param required').not().isEmpty(),
     check('phone','Must contain phone value').not().isEmpty(),
     checkRole,
     checkEmailRepetido,
+    checkUIDRepetido,
     validateErrors
 ],userController.addUser);
 router.post('/cliente',userController.createClient);
