@@ -7,6 +7,16 @@ class Cliente {
         this.telefono = telefono;
     }
 
+    static async isClient (clientId){
+        const con = new Connection();
+        try {
+            const docSnapshot = await con.db.collection('clients').doc(clientId).get();
+            return docSnapshot.exists;
+        }catch (error){
+            return false;
+        }
+    }
+
     static async getAllClients (){
         const con = new Connection();
         const clientes = [];

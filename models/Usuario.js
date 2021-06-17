@@ -12,7 +12,7 @@ class Usuario {
     static async getAllUsers (){
         const connection = new Connection();
         const array = [];
-        const collectionUsers = connection.db.collection('users').get();
+        const collectionUsers = connection.db.collection('users').where('enabled','==',true).get();
         (await collectionUsers).forEach((doc)=>{
             const user =doc.data();
             array.push(user);
