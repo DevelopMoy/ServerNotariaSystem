@@ -6,7 +6,7 @@ const getUsers = async (req,res)=>{
 
     res.status(200).json({
         users: usuarios
-    })
+    });
 }
 
 const addUser = async (req,res)=> {
@@ -23,7 +23,7 @@ const addUser = async (req,res)=> {
 const deleteUser = async (req,res)=>{
     const {UID} = req.body;
     try{
-        await Usuario.disableUser(UID);
+        await Usuario.changeUserState(UID,false);
         return res.status(202).json({
             ok: true,
             UID

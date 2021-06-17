@@ -24,6 +24,18 @@ const validateRole =(rol)=>{
     }
 }
 
+const validateIfEnabledByUID =async (req,res,next)=>{
+    const {UID} = req.body;
+    if (await User.veriffyEnabled(UID)){
+        next();
+    }else{
+        return res.status(403).json({
+            msg: 'User disabled, contact an admin'
+        });
+    }
+}
+
 module.exports = {
-    validateRole
+    validateRole,
+    validateIfEnabledByUID
 }
