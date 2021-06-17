@@ -52,9 +52,22 @@ const updateUser = async (req,res)=>{
 }
 
 const createClient = async (req,res)=>{
-    res.status(200).json({
-        msg: "perpeprep"
-    })
+    const {nombre,tipo,telefono} = req.body;
+    const newClient = new Cliente(nombre,tipo,telefono);
+    try{
+        const status = await newClient.saveAsNewClient();
+        if (status){
+            return res.status(200).json({
+                ok: true,
+            });
+        }else{
+            throw new Error();
+        }
+    }catch (error){
+        return res.status(500).json({
+            msg: 'Internal server error'
+        })
+    }
 }
 
 module.exports = {
