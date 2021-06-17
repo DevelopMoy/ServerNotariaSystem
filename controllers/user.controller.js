@@ -35,6 +35,22 @@ const deleteUser = async (req,res)=>{
     }
 }
 
+const updateUser = async (req,res)=>{
+    const {UID, phone,name} = req.body;
+    try{
+        const user = new Usuario("",name,"",phone,UID);
+        await user.updateUser();
+        return res.status(200).json({
+            msg: 'Usuario actualizado!',
+            UID
+        })
+    }catch (err){
+        return res.status(500).json({
+            msg: 'Internal server error'
+        })
+    }
+}
+
 const createClient = async (req,res)=>{
     res.status(200).json({
         msg: "perpeprep"
@@ -45,5 +61,6 @@ module.exports = {
     getUsers,
     addUser,
     createClient,
-    deleteUser
+    deleteUser,
+    updateUser
 }

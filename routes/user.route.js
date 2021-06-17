@@ -28,6 +28,13 @@ router.delete('',[
     validateRole("ADMIN")
 ],userController.deleteUser);
 
+router.put('',[
+    check('UID','UID Param required').not().isEmpty(),
+    check('name','Name Param required').not().isEmpty(),
+    check('phone','Phone Param required').not().isEmpty(),
+    validateRole("ADMIN"),
+],userController.updateUser);
+
 router.post('/cliente',userController.createClient);
 
 module.exports = router;

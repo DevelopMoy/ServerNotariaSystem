@@ -60,6 +60,20 @@ class Usuario {
             name,email,role,phone,UID, enabled: true
         });
     }
+
+    async updateUser (){
+        const connection = new Connection();
+        const snapshot = await connection.db.collection('users').where('UID','==',this.UID).get();
+        if (snapshot.empty){
+            throw new Error('EL usuario no existe');
+        }else{
+            const docId=snapshot.docs[0].id;
+            return connection.db.collection('users').doc(docId).update({
+                name: this.nombre,
+                phone: this.celular
+            });
+        }
+    }
 }
 
 module.exports = Usuario;
