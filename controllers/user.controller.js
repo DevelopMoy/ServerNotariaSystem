@@ -55,10 +55,11 @@ const createClient = async (req,res)=>{
     const {nombre,tipo,telefono} = req.body;
     const newClient = new Cliente(nombre,tipo,telefono);
     try{
-        const status = await newClient.saveAsNewClient();
-        if (status){
+        const clientId = await newClient.saveAsNewClient();
+        if (clientId){
             return res.status(200).json({
                 ok: true,
+                id: clientId
             });
         }else{
             throw new Error();
@@ -70,10 +71,15 @@ const createClient = async (req,res)=>{
     }
 }
 
+const getClients =async (req,res)=>{
+    return res.status(200).json(await Cliente.getAllClients());
+}
+
 module.exports = {
     getUsers,
     addUser,
     createClient,
     deleteUser,
-    updateUser
+    updateUser,
+    getClients
 }

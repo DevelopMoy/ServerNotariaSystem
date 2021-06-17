@@ -45,4 +45,8 @@ router.post('/cliente',[
     validateErrors
 ],userController.createClient);
 
+router.get('/cliente',[
+    validateRole("ADMIN")
+],userController.getClients);
+
 module.exports = router;

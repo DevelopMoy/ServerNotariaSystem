@@ -1,6 +1,7 @@
 const express = require ('express');
 const usersRoutes = require('../routes/user.route');
 const authRoutes = require('../routes/auth.route');
+const cors = require('cors');
 
 class Server {
     usersEndPoint = '/api/user';
@@ -15,6 +16,7 @@ class Server {
 
     addMiddlewares (){
         this.app.use(express.json());
+        this.app.use(cors());
     }
 
     assignRoutes (){

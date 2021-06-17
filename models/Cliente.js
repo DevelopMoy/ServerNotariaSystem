@@ -7,12 +7,28 @@ class Cliente {
         this.telefono = telefono;
     }
 
+    static async getAllClients (){
+        const con = new Connection();
+        const clientes = [];
+        const snapshot = await con.db.collection('clients').get();
+        snapshot.docs.forEach((cliente)=>{
+            clientes.push({
+                id: cliente.id,
+                data: cliente.data()
+            })
+        });
+        return clientes;
+    }
+
     async saveAsNewClient (){
         const con = new Connection();
         const {nombre, tipo, telefono } = this;
-        return await con.db.collection('clients').doc().set({
-            nombre,tipo,telefono
-        });
+        const newDocument= await con.db.collection('clients').add(
+            {
+                nombre,tipo,telefono
+            }
+        );
+        return newDocument.id;
     }
 }
 
