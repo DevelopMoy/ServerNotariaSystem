@@ -32,7 +32,7 @@ router.put('',[
     check('UID','UID Param required').not().isEmpty(),
     check('name','Name Param required').not().isEmpty(),
     check('phone','Phone Param required').not().isEmpty(),
-    validateRole("ADMIN"),
+    validateRole("USER"),
 ],userController.updateUser);
 
 router.post('/cliente',userController.createClient);
