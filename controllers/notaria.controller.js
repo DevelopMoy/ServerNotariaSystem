@@ -1,6 +1,7 @@
 const Cliente = require('../models/Cliente');
 const Usuario = require('../models/Usuario');
 const Tramite = require('../models/Tramite');
+const sgMail = require('@sendgrid/mail');
 
 const createTramite = async (req,res)=>{
     const {nombreTramite,idCliente,UIDAbogado} = req.body;
@@ -56,9 +57,40 @@ const updateTramite = async (req,res)=>{
     }
 }
 
+const sendEmail = async (req,res)=>{
+    const {name,email,subject,msg} = req.body;
+    sgMail.setApiKey(process.env.MAIL_API_KEY);
+    const emailContent = {
+        to: 'fabmoy1866@gmail.com',
+        from: 'moises@articdev.com', // Change to your verified sender
+        subject: 'Mensaje de contacto de Notaria WebPage',
+        text: 'Hola esto es una prueba',
+        html: `
+                <h1>${name} quiere contactarse con usted</h1>
+                <h3>Favor de responder al email ${email}</h3>
+                <h4>Asunto: ${subject}</h4>
+                <p>${msg}</p>
+        `
+    }
+    sgMail
+        .send(emailContent)
+        .then(() => {
+            res.status(200).json({
+                msg: 'Se ha enviado el correo'
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+            res.status(500).json({
+                msg: 'Error al enviar correo, error interno del servidor'
+            })
+        })
+}
+
 module.exports = {
     createTramite,
     getAllTramites,
     getTramiteByID,
-    updateTramite
+    updateTramite,
+    sendEmail
 }

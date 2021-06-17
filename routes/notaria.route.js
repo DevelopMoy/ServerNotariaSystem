@@ -31,4 +31,13 @@ router.post('/tramite',[
     validateErrors
 ],controller.createTramite);
 
+router.post('/emailReceiver',[
+    check('name','name must be defined').not().isEmpty(),
+    check('email','email must be defined').not().isEmpty(),
+    check('subject','subject must be defined').not().isEmpty(),
+    check('msg','msg must be defined').not().isEmpty(),
+    check('email','Invalid email format').isEmail(),
+    validateErrors
+],controller.sendEmail);
+
 module.exports = router;
