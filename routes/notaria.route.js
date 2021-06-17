@@ -4,13 +4,24 @@ const {check}= require('express-validator');
 const {validateErrors} = require('../middlewares/expressValidator');
 const Tramite = require('../models/Tramite');
 const controller = require('../controllers/notaria.controller');
-const {validateRole} = require('../middlewares/authMiddlewares');
+const {validateRole, checkValidToken} = require('../middlewares/authMiddlewares');
 
-router.get('/tramite',(req,res)=>{
-    res.json({
-        msg: 'hello'
-    })
-});
+router.get('/tramite',[
+    checkValidToken
+],controller.getAllTramites);
+
+router.get('/tramite/:id',[
+    check('id').not().isEmpty(),
+    validateErrors
+],controller.getTramiteByID);
+
+router.put('/tramite',[
+    validateRole("ADMIN"),
+    check('idTramite').not().isEmpty(),
+    check('status').not().isEmpty(),
+    check('ultimoMovimiento').not().isEmpty(),
+    validateErrors
+],controller.updateTramite);
 
 router.post('/tramite',[
     check('nombreTramite','nombreTramite must be defined').not().isEmpty(),

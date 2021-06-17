@@ -35,7 +35,25 @@ const validateIfEnabledByUID =async (req,res,next)=>{
     }
 }
 
+const checkValidToken = async (req, res, next)=>{
+    const clientToken = req.header('authToken');
+    if (!clientToken){
+        return res.status(403).json({
+            msg: 'Error al autenticar, token invalido'
+        });
+    }
+    try{
+        jwt.verify(clientToken,process.env.JWT_KEY);
+        next();
+    }catch (error){
+        return res.status(403).json({
+            msg: 'Error al autenticar, token invalido'
+        });
+    }
+}
+
 module.exports = {
     validateRole,
+    checkValidToken,
     validateIfEnabledByUID
 }

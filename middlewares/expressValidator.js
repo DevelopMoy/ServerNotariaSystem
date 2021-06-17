@@ -43,7 +43,6 @@ const checkUIDRepetido = async  (req,res,next)=>{
     next();
 }
 
-
 module.exports = {
     validateErrors,
     checkRole,

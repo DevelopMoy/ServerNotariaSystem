@@ -31,6 +31,34 @@ const createTramite = async (req,res)=>{
     }
 }
 
+const getAllTramites = async (req,res)=>{
+    const tramites = await Tramite.getAllTramites();
+    return res.status(200).json(tramites);
+}
+
+const getTramiteByID = async (req,res)=>{
+    const {id} = req.params;
+    console.log(req.params);
+    const tramite = await Tramite.getTramite(id);
+    return tramite ? res.status(200).json(tramite): res.status(400).json({msg: 'Error al validar id del tramite'});
+}
+
+const updateTramite = async (req,res)=>{
+    const {idTramite, status, ultimoMovimiento} = req.body;
+    try{
+        await Tramite.updateTramite(idTramite,ultimoMovimiento,status);
+        return res.status(200).json ({
+            idTramite,
+            msg: 'Registro actualizado con exito'
+        })
+    }catch (error){
+        return res.status(400).json({msg: 'Error al validar actualizacion del tramite'});
+    }
+}
+
 module.exports = {
-    createTramite
+    createTramite,
+    getAllTramites,
+    getTramiteByID,
+    updateTramite
 }
