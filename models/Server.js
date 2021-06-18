@@ -13,13 +13,16 @@ class Server {
         this.app = express();
         this.addMiddlewares();
         this.assignRoutes();
+        this.app.all("/*", function(req, res, next) {
+            res.sendfile("public/index.html", { root: __dirname + "/app" });
+        });
         this.app.listen(process.env.PORT);
     }
 
     addMiddlewares (){
         this.app.use(express.json());
         this.app.use(cors());
-	this.app.use(express.static('public'));
+        this.app.use(express.static('public'));
     }
 
     assignRoutes (){
