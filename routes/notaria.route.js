@@ -16,7 +16,7 @@ router.get('/tramite/:id',[
 ],controller.getTramiteByID);
 
 router.put('/tramite',[
-    validateRole("ADMIN"),
+    validateRole("USER"),
     check('idTramite').not().isEmpty(),
     check('status').not().isEmpty(),
     check('ultimoMovimiento').not().isEmpty(),
