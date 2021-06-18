@@ -2,14 +2,14 @@ const express = require('express');
 const router = express.Router();
 const {check} = require('express-validator');
 const {validateErrors, checkRole, checkEmailRepetido, checkUIDRepetido} = require('../middlewares/expressValidator');
-const {validateRole} = require('../middlewares/authMiddlewares');
+const {validateRole, checkValidToken} = require('../middlewares/authMiddlewares');
 const userController = require('../controllers/user.controller');
 
 // TO DO: VALIDATE JWT, AUTH METHODS
 
 router.get('',[
-    validateRole('ADMIN')
-],userController.getUsers); // Protected, just for admin
+    checkValidToken
+],userController.getUsers);
 
 router.post('',[
     check('name','Must contain name value').not().isEmpty(),
